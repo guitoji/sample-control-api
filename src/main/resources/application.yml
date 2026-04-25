@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: sample-control-api
+  datasource:
+    url: jdbc:postgresl://localhost:5432/sampledb
+    driver-class-name: org.postgresql.Driver
+    username: postgres
+    password: postgres
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
