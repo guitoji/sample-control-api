@@ -21,4 +21,8 @@ public class RequesterService {
     public Optional<Requester> search(UUID id) {
         return requesterRepository.findById(id);
     }
+
+    public void delete(Requester requester) {
+        requesterRepository.delete(requester);
+    }
 }
