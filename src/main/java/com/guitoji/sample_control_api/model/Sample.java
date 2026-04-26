@@ -1,4 +1,4 @@
-package model;
+package com.guitoji.sample_control_api.model;
 
 import jakarta.persistence.*;
 import lombok.Getter;

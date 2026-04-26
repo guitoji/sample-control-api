@@ -2,7 +2,7 @@ spring:
   application:
     name: sample-control-api
   datasource:
-    url: jdbc:postgresl://localhost:5432/sampledb
+    url: jdbc:postgresql://localhost:5432/sample
     driver-class-name: org.postgresql.Driver
     username: postgres
     password: postgres
