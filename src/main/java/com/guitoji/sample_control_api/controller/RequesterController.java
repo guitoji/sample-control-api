@@ -45,4 +45,18 @@ public class RequesterController implements GenericController{
                     return ResponseEntity.noContent().build();
                 }).orElseGet(() -> ResponseEntity.notFound().build());
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Object> update(@PathVariable String id, @RequestBody RequesterDTO dto) {
+        return requesterService.search(UUID.fromString(id))
+                .map(requester -> {
+                    requester.setName(dto.name());
+                    requester.setEmail(dto.email());
+                    requester.setDepartment(dto.department());
+                    requester.setBuild(dto.build());
+
+                    requesterService.update(requester);
+                    return ResponseEntity.noContent().build();
+                }).orElseGet(() -> ResponseEntity.notFound().build());
+    }
 }

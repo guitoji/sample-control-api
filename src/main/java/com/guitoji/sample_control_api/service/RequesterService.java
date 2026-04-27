@@ -25,4 +25,8 @@ public class RequesterService {
     public void delete(Requester requester) {
         requesterRepository.delete(requester);
     }
+
+    public Requester update(Requester requester) {
+        return requesterRepository.save(requester);
+    }
 }
