@@ -27,7 +27,7 @@ public class Requester {
     private String email;
 
     @Column(name = "department")
-    private String department;
+    private Department department;
 
     @Column(name = "build")
     private Integer build;

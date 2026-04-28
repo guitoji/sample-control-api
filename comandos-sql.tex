@@ -3,7 +3,8 @@ create table requester(
 	name varchar(40) not null,
 	email varchar(40) not null,
 	department varchar(40) not null,
-	build numeric(3) not null
+	build numeric(3) not null,
+	constraint chk_department check (department in('QUALITY_CENTER', 'AUTOMOTIVE', 'MARKETING', 'HEALTH', 'ENGINEERING', 'ABRASIVES'))
 );
 
 create table sample(
@@ -14,5 +15,5 @@ create table sample(
 	status varchar(15) not null,
 	genero varchar(15) not null,
 	id_autor uuid not null references requester(id),
-	constraint chk_genero check(genero in ('PENDING', 'IN_TRANSIT', 'RECEIVED_BY_PLANT_WAREHOUSE', 'DELIVERED', 'RECEIVED_BY_REQUESTER'))
+	constraint chk_status check(status in ('PENDING', 'IN_TRANSIT', 'RECEIVED_BY_PLANT_WAREHOUSE', 'DELIVERED', 'RECEIVED_BY_REQUESTER'))
 );

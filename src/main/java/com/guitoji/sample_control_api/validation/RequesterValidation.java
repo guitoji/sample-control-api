@@ -21,7 +21,8 @@ public class RequesterValidation {
     }
 
     private boolean requesterAlreadyRegistered(Requester requester) {
-        Optional<Requester> optionalRequester = requesterRepository.findByNameAndEmail(requester.getName(), requester.getEmail());
+        Optional<Requester> optionalRequester = requesterRepository
+                .findByNameAndEmailAndDepartment(requester.getName(), requester.getEmail(), requester.getDepartment());
 
         if (requester.getId() == null) {
             return optionalRequester.isPresent();

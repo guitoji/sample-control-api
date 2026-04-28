@@ -3,6 +3,7 @@ package com.guitoji.sample_control_api.controller;
 import com.guitoji.sample_control_api.controller.dto.RequesterDTO;
 import com.guitoji.sample_control_api.controller.dto.ResultRequesterSearchDTO;
 import com.guitoji.sample_control_api.controller.mapper.RequesterMapper;
+import com.guitoji.sample_control_api.model.Department;
 import com.guitoji.sample_control_api.model.Requester;
 import com.guitoji.sample_control_api.service.RequesterService;
 import jakarta.validation.Valid;
@@ -64,7 +65,7 @@ public class RequesterController implements GenericController{
     @GetMapping
     public ResponseEntity<List<ResultRequesterSearchDTO>> filter(
             @RequestParam(value = "name", required = false) String name,
-            @RequestParam(value = "department", required = false) String department,
+            @RequestParam(value = "department", required = false) Department department,
             @RequestParam(value = "build", required = false) Integer build ) {
 
         List<Requester> list = requesterService.filterByExample(name, department, build);

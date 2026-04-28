@@ -1,5 +1,6 @@
 package com.guitoji.sample_control_api.service;
 
+import com.guitoji.sample_control_api.model.Department;
 import com.guitoji.sample_control_api.model.Requester;
 import com.guitoji.sample_control_api.repository.RequesterRepository;
 import com.guitoji.sample_control_api.validation.RequesterValidation;
@@ -39,7 +40,7 @@ public class RequesterService {
         return requesterRepository.save(requester);
     }
 
-    public List<Requester> filterByExample(String name , String department, Integer build) {
+    public List<Requester> filterByExample(String name , Department department, Integer build) {
         var requester = new Requester();
         requester.setName(name);
         requester.setDepartment(department);
