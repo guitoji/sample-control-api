@@ -14,6 +14,6 @@ create table sample(
 	price numeric(14,2) not null,
 	status varchar(15) not null,
 	genero varchar(15) not null,
-	id_autor uuid not null references requester(id),
+	id_requester uuid not null references requester(id),
 	constraint chk_status check(status in ('PENDING', 'IN_TRANSIT', 'RECEIVED_BY_PLANT_WAREHOUSE', 'DELIVERED', 'RECEIVED_BY_REQUESTER'))
 );

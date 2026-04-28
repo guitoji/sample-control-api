@@ -11,4 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class SampleController implements GenericController{
 
     private final SampleService sampleService;
+
+
 }
