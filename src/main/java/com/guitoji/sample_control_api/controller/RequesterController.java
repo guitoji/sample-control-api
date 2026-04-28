@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -58,5 +59,17 @@ public class RequesterController implements GenericController{
                     requesterService.update(requester);
                     return ResponseEntity.noContent().build();
                 }).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @GetMapping
+    public ResponseEntity<List<ResultRequesterSearchDTO>> filter(
+            @RequestParam(value = "name", required = false) String name,
+            @RequestParam(value = "department", required = false) String department,
+            @RequestParam(value = "build", required = false) Integer build ) {
+
+        List<Requester> list = requesterService.filterByExample(name, department, build);
+        List<ResultRequesterSearchDTO> result = list.stream().map(requesterMapper::toDTO).toList();
+
+        return ResponseEntity.ok(result);
     }
 }
