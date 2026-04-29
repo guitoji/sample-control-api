@@ -11,7 +11,7 @@ public record RequesterDTO(
         @Email(message = "Informação não correspondente ao formato e-mail")
         @NotBlank(message = "campo obrigatório")
         String email,
-        @NotBlank(message = "campo obrigatório")
+        @NotNull(message = "campo obrigatório")
         Department department,
         @NotNull(message = "campo obrigatório")
         Integer build

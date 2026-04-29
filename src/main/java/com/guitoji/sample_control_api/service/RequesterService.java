@@ -35,7 +35,7 @@ public class RequesterService {
 
     public Requester update(Requester requester) {
         /*
-         * implement throw of operationNotAllowed after, one request cannot be deleted when he has samples linked to him
+         * implement throw of operationNotAllowed after, one requester cannot be deleted when he has samples linked to him
          */
         return requesterRepository.save(requester);
     }

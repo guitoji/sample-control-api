@@ -26,6 +26,7 @@ public class Requester {
     @Column(name = "email")
     private String email;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "department")
     private Department department;
 

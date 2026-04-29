@@ -11,5 +11,5 @@ import java.util.UUID;
 @Repository
 public interface RequesterRepository extends JpaRepository<Requester, UUID> {
 
-    Optional<Requester> findByNameAndEmailAndDepartment(String name, String email, Department department);
+    Optional<Requester> findByNameAndEmail(String name, String email);
 }

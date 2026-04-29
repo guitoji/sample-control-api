@@ -12,7 +12,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class RequesterValidation {
 
-    private RequesterRepository requesterRepository;
+    private final RequesterRepository requesterRepository;
 
     public void validate(Requester requester) {
         if (requesterAlreadyRegistered(requester)) {
@@ -22,7 +22,7 @@ public class RequesterValidation {
 
     private boolean requesterAlreadyRegistered(Requester requester) {
         Optional<Requester> optionalRequester = requesterRepository
-                .findByNameAndEmailAndDepartment(requester.getName(), requester.getEmail(), requester.getDepartment());
+                .findByNameAndEmail(requester.getName(), requester.getEmail());
 
         if (requester.getId() == null) {
             return optionalRequester.isPresent();
