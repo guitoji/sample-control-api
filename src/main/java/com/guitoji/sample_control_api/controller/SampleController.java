@@ -1,17 +1,16 @@
 package com.guitoji.sample_control_api.controller;
 
+import com.guitoji.sample_control_api.controller.dto.ResultSampleSearchDTO;
 import com.guitoji.sample_control_api.controller.dto.SampleDTO;
 import com.guitoji.sample_control_api.controller.mapper.SampleMapper;
 import com.guitoji.sample_control_api.model.Sample;
 import com.guitoji.sample_control_api.service.SampleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/samples")
@@ -26,5 +25,14 @@ public class SampleController implements GenericController{
         Sample sample = sampleService.save(sampleMapper.toEntity(dto));
         URI location = generateHeaderLocation(sample.getId());
         return ResponseEntity.created(location).build();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ResultSampleSearchDTO> search(@PathVariable String id) {
+        return sampleService.search(UUID.fromString(id))
+                .map(sample -> {
+                    ResultSampleSearchDTO dto = sampleMapper.toDto(sample);
+                    return ResponseEntity.ok(dto);
+                }).orElseGet(() -> ResponseEntity.notFound().build());
     }
 }
