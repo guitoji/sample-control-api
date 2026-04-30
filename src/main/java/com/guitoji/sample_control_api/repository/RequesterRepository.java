@@ -1,6 +1,5 @@
 package com.guitoji.sample_control_api.repository;
 
-import com.guitoji.sample_control_api.model.Department;
 import com.guitoji.sample_control_api.model.Requester;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

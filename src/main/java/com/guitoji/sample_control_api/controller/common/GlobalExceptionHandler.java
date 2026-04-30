@@ -3,6 +3,7 @@ package com.guitoji.sample_control_api.controller.common;
 import com.guitoji.sample_control_api.controller.dto.ErrorWarningDTO;
 import com.guitoji.sample_control_api.controller.dto.FieldWarningDTO;
 import com.guitoji.sample_control_api.exception.DuplicatedRegisterException;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -24,6 +25,12 @@ public class GlobalExceptionHandler {
                 .map(field -> new FieldWarningDTO(field.getField(), field.getDefaultMessage()))
                 .toList();
         return new ErrorWarningDTO(HttpStatus.UNPROCESSABLE_ENTITY.value(), "Erro validação", fieldWarningDTOList);
+    }
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorWarningDTO handleEntityNotFoundException(EntityNotFoundException e) {
+        return ErrorWarningDTO.entityNotFound(e.getMessage());
     }
 
     @ExceptionHandler(DuplicatedRegisterException.class)

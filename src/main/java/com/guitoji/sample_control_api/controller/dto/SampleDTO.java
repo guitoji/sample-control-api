@@ -1,7 +1,6 @@
 package com.guitoji.sample_control_api.controller.dto;
 
 import com.guitoji.sample_control_api.model.Status;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 

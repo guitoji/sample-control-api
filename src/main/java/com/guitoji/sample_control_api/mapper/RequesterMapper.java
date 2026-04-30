@@ -1,4 +1,4 @@
-package com.guitoji.sample_control_api.controller.mapper;
+package com.guitoji.sample_control_api.mapper;
 
 import com.guitoji.sample_control_api.controller.dto.RequesterDTO;
 import com.guitoji.sample_control_api.controller.dto.ResultRequesterSearchDTO;
