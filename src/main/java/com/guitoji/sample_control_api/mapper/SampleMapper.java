@@ -1,4 +1,4 @@
-package com.guitoji.sample_control_api.controller.mapper;
+package com.guitoji.sample_control_api.mapper;
 
 import com.guitoji.sample_control_api.controller.dto.ResultRequesterSearchDTO;
 import com.guitoji.sample_control_api.controller.dto.ResultSampleSearchDTO;
@@ -28,7 +28,7 @@ public abstract class SampleMapper {
     public abstract Sample toEntity(SampleDTO dto);
 
     @Mapping(target = "resultRequesterSearchDTO", source = "requester", qualifiedByName = "getRequesterDto")
-    public abstract ResultSampleSearchDTO toDto(Sample sample);
+    public abstract ResultSampleSearchDTO toDTO(Sample sample);
 
     @Named("getRequester")
     protected Requester getRequester(UUID idRequester) {
