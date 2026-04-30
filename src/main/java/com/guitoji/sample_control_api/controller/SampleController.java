@@ -35,4 +35,13 @@ public class SampleController implements GenericController{
                     return ResponseEntity.ok(dto);
                 }).orElseGet(() -> ResponseEntity.notFound().build());
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> delete(@PathVariable String id) {
+        return sampleService.search(UUID.fromString(id))
+                .map(sample -> {
+                    sampleService.delete(sample);
+                    return ResponseEntity.noContent().build();
+                }).orElseGet(() -> ResponseEntity.notFound().build());
+    }
 }

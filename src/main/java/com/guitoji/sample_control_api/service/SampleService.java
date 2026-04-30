@@ -21,4 +21,8 @@ public class SampleService {
     public Optional<Sample> search(UUID id) {
         return sampleRepository.findById(id);
     }
+
+    public void delete(Sample sample) {
+        sampleRepository.delete(sample);
+    }
 }
