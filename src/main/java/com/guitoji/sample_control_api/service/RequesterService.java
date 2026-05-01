@@ -33,6 +33,7 @@ public class RequesterService {
         return requesterRepository.save(requester).getId();
     }
 
+    @Transactional(readOnly = true)
     public Optional<ResultRequesterSearchDTO> search(UUID id) {
         return requesterRepository.findById(id)
                 .map(requesterMapper::toDTO);
@@ -61,6 +62,7 @@ public class RequesterService {
         requesterRepository.save(requester);
     }
 
+    @Transactional(readOnly = true)
     public List<ResultRequesterSearchDTO> filterByExample(String name, Department department, Integer build) {
         var requester = new Requester();
         requester.setName(name);
@@ -81,5 +83,4 @@ public class RequesterService {
                 .map(requesterMapper::toDTO)
                 .toList();
     }
-
 }

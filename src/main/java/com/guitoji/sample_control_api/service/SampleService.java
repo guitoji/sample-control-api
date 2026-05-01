@@ -23,25 +23,26 @@ public class SampleService {
     private final SampleMapper sampleMapper;
     private final RequesterRepository requesterRepository;
 
-    @Transactional(readOnly = true)
+    @Transactional
     public UUID register(SampleDTO dto) {
         Sample sample = sampleMapper.toEntity(dto);
         return sampleRepository.save(sample).getId();
     }
 
+    @Transactional(readOnly = true)
     public Optional<ResultSampleSearchDTO> search(UUID id) {
         return sampleRepository.findById(id)
                 .map(sampleMapper::toDTO);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public void delete(UUID id) {
         Sample sample = sampleRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Sample not found: " + id));
         sampleRepository.delete(sample);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public void update(UUID id, SampleDTO dto) {
         Sample sample = sampleRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Sample not found: " + id));
