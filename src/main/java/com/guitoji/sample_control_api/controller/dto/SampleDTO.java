@@ -16,7 +16,6 @@ public record SampleDTO(
         BigDecimal price,
         @NotNull(message = "campo obrigatório")
         Status status,
-        @org.hibernate.validator.constraints.UUID
         @NotNull(message = "campo obrigatório")
         UUID id_requester
 ) {
