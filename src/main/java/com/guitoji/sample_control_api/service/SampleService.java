@@ -5,13 +5,17 @@ import com.guitoji.sample_control_api.controller.dto.SampleDTO;
 import com.guitoji.sample_control_api.mapper.SampleMapper;
 import com.guitoji.sample_control_api.model.Requester;
 import com.guitoji.sample_control_api.model.Sample;
+import com.guitoji.sample_control_api.model.Status;
 import com.guitoji.sample_control_api.repository.RequesterRepository;
 import com.guitoji.sample_control_api.repository.SampleRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -58,4 +62,28 @@ public class SampleService {
 
         sampleRepository.save(sample);
     }
+
+    @Transactional(readOnly = true)
+    public List<ResultSampleSearchDTO> filterByExample
+            (Integer commodity, String description, Status status) {
+        var sample = new Sample();
+        sample.setCommodity(commodity);
+        sample.setDescription(description);
+        sample.setStatus(status);
+
+        ExampleMatcher matcher = ExampleMatcher
+                .matching()
+                .withIgnoreCase()
+                .withIgnoreNullValues()
+                .withIgnorePaths("id, price, requester")
+                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
+
+        Example<Sample> sampleExample = Example.of(sample, matcher);
+
+        return sampleRepository.findAll(sampleExample)
+                .stream()
+                .map(sampleMapper::toDTO)
+                .toList();
+    }
 }
+

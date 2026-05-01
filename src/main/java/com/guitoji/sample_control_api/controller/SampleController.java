@@ -2,6 +2,7 @@ package com.guitoji.sample_control_api.controller;
 
 import com.guitoji.sample_control_api.controller.dto.ResultSampleSearchDTO;
 import com.guitoji.sample_control_api.controller.dto.SampleDTO;
+import com.guitoji.sample_control_api.model.Status;
 import com.guitoji.sample_control_api.service.SampleService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -42,5 +44,14 @@ public class SampleController implements GenericController {
     public ResponseEntity<Object> update(@PathVariable String id, @RequestBody @Valid SampleDTO dto) {
         sampleService.update(UUID.fromString(id), dto);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping
+    public ResponseEntity<List<ResultSampleSearchDTO>> filter(
+            @RequestParam(required = false) Integer commodity,
+            @RequestParam(required = false) String description,
+            @RequestParam(required = false) Status status) {
+
+            return ResponseEntity.ok(sampleService.filterByExample(commodity, description, status));
     }
 }
