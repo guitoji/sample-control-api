@@ -2,12 +2,14 @@ package com.guitoji.sample_control_api.service;
 
 import com.guitoji.sample_control_api.controller.dto.ResultSampleSearchDTO;
 import com.guitoji.sample_control_api.controller.dto.SampleDTO;
+import com.guitoji.sample_control_api.exception.OperationNotAllowedException;
 import com.guitoji.sample_control_api.mapper.SampleMapper;
 import com.guitoji.sample_control_api.model.Requester;
 import com.guitoji.sample_control_api.model.Sample;
 import com.guitoji.sample_control_api.model.Status;
 import com.guitoji.sample_control_api.repository.RequesterRepository;
 import com.guitoji.sample_control_api.repository.SampleRepository;
+import com.guitoji.sample_control_api.validation.SampleValidator;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Example;
@@ -26,6 +28,7 @@ public class SampleService {
     private final SampleRepository sampleRepository;
     private final SampleMapper sampleMapper;
     private final RequesterRepository requesterRepository;
+    private final SampleValidator validator;
 
     @Transactional
     public UUID register(SampleDTO dto) {
@@ -43,6 +46,9 @@ public class SampleService {
     public void delete(UUID id) {
         Sample sample = sampleRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Sample not found: " + id));
+        if (!sampleProcessed(sample)) {
+            throw new OperationNotAllowedException("Not allowed to delete a sample that is not in pending status");
+        }
         sampleRepository.delete(sample);
     }
 
@@ -84,6 +90,10 @@ public class SampleService {
                 .stream()
                 .map(sampleMapper::toDTO)
                 .toList();
+    }
+
+    private boolean sampleProcessed(Sample sample) {
+        return !sample.getStatus().equals(Status.PENDING);
     }
 }
 

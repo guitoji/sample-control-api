@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
-public class RequesterValidation {
+public class RequesterValidator {
 
     private final RequesterRepository requesterRepository;
 
@@ -18,6 +18,8 @@ public class RequesterValidation {
         if (requesterAlreadyRegistered(requester)) {
             throw new DuplicatedRegisterException("Requester is already registered.");
         }
+
+
     }
 
     private boolean requesterAlreadyRegistered(Requester requester) {

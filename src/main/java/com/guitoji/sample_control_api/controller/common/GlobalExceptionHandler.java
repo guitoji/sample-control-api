@@ -3,6 +3,7 @@ package com.guitoji.sample_control_api.controller.common;
 import com.guitoji.sample_control_api.controller.dto.ErrorWarningDTO;
 import com.guitoji.sample_control_api.controller.dto.FieldWarningDTO;
 import com.guitoji.sample_control_api.exception.DuplicatedRegisterException;
+import com.guitoji.sample_control_api.exception.OperationNotAllowedException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
@@ -48,7 +49,9 @@ public class GlobalExceptionHandler {
                 List.of());
     }
 
-    /*
-     * Implement exception handler to Operation not allowed after sample repository is created
-     */
+    @ExceptionHandler(OperationNotAllowedException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorWarningDTO handlerOperationNotAllowedException(OperationNotAllowedException e) {
+        return ErrorWarningDTO.badRequest(e.getMessage());
+    }
 }

@@ -2,11 +2,14 @@ package com.guitoji.sample_control_api.service;
 
 import com.guitoji.sample_control_api.controller.dto.RequesterDTO;
 import com.guitoji.sample_control_api.controller.dto.ResultRequesterSearchDTO;
+import com.guitoji.sample_control_api.exception.OperationNotAllowedException;
 import com.guitoji.sample_control_api.mapper.RequesterMapper;
 import com.guitoji.sample_control_api.model.Department;
 import com.guitoji.sample_control_api.model.Requester;
+import com.guitoji.sample_control_api.model.Sample;
 import com.guitoji.sample_control_api.repository.RequesterRepository;
-import com.guitoji.sample_control_api.validation.RequesterValidation;
+import com.guitoji.sample_control_api.repository.SampleRepository;
+import com.guitoji.sample_control_api.validation.RequesterValidator;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Example;
@@ -24,12 +27,13 @@ public class RequesterService {
 
     private final RequesterRepository requesterRepository;
     private final RequesterMapper requesterMapper;
-    private final RequesterValidation requesterValidation;
+    private final RequesterValidator requesterValidator;
+    private final SampleRepository sampleRepository;
 
     @Transactional
     public UUID register(RequesterDTO dto) {
         Requester requester = requesterMapper.toEntity(dto);
-        requesterValidation.validate(requester);
+        requesterValidator.validate(requester);
         return requesterRepository.save(requester).getId();
     }
 
@@ -43,6 +47,9 @@ public class RequesterService {
     public void delete(UUID id) {
         Requester requester = requesterRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Requester not found: " + id));
+        if (hasSamples(requester)) {
+            throw new OperationNotAllowedException("Not allowed to delete a requester who has samples");
+        }
         requesterRepository.delete(requester);
     }
 
@@ -82,5 +89,9 @@ public class RequesterService {
                 .stream()
                 .map(requesterMapper::toDTO)
                 .toList();
+    }
+
+    private boolean hasSamples(Requester requester) {
+        return sampleRepository.existsByRequester(requester);
     }
 }
