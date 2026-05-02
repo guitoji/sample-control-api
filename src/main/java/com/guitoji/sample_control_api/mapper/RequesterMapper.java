@@ -12,6 +12,8 @@ public abstract class RequesterMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "samples", ignore = true)
+    @Mapping(target = "registerDate", ignore = true)
+    @Mapping(target = "updateDate", ignore = true)
     public abstract Requester toEntity(RequesterDTO dto);
 
     public abstract ResultRequesterSearchDTO toDTO(Requester requester);

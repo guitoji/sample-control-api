@@ -25,6 +25,8 @@ public abstract class SampleMapper {
     private RequesterService requesterService;
 
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "registerDate", ignore = true)
+    @Mapping(target = "updateDate", ignore = true)
     @Mapping(target = "requester", source = "id_requester", qualifiedByName = "getRequester")
     public abstract Sample toEntity(SampleDTO dto);
 
