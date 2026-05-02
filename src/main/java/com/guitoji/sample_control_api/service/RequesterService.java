@@ -6,7 +6,6 @@ import com.guitoji.sample_control_api.exception.OperationNotAllowedException;
 import com.guitoji.sample_control_api.mapper.RequesterMapper;
 import com.guitoji.sample_control_api.model.Department;
 import com.guitoji.sample_control_api.model.Requester;
-import com.guitoji.sample_control_api.model.Sample;
 import com.guitoji.sample_control_api.repository.RequesterRepository;
 import com.guitoji.sample_control_api.repository.SampleRepository;
 import com.guitoji.sample_control_api.validation.RequesterValidator;
@@ -41,6 +40,15 @@ public class RequesterService {
     public Optional<ResultRequesterSearchDTO> search(UUID id) {
         return requesterRepository.findById(id)
                 .map(requesterMapper::toDTO);
+    }
+
+    public Requester searchReturningRequester(UUID id) {
+        Optional<Requester> optionalRequester =  requesterRepository.findById(id);
+
+        if (optionalRequester.isEmpty()) {
+            throw new EntityNotFoundException("Requester not found: " + id);
+        }
+        return optionalRequester.get();
     }
 
     @Transactional
