@@ -7,13 +7,10 @@ import com.guitoji.sample_control_api.mapper.SampleMapper;
 import com.guitoji.sample_control_api.model.Requester;
 import com.guitoji.sample_control_api.model.Sample;
 import com.guitoji.sample_control_api.model.Status;
-import com.guitoji.sample_control_api.repository.RequesterRepository;
 import com.guitoji.sample_control_api.repository.SampleRepository;
-import com.guitoji.sample_control_api.validation.SampleValidator;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,8 +24,8 @@ public class SampleService {
 
     private final SampleRepository sampleRepository;
     private final SampleMapper sampleMapper;
-    private final RequesterRepository requesterRepository;
-    private final SampleValidator validator;
+    private final RequesterService requesterService;
+
 
     @Transactional
     public UUID register(SampleDTO dto) {
@@ -57,8 +54,7 @@ public class SampleService {
         Sample sample = sampleRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Sample not found: " + id));
 
-        Requester requester = requesterRepository.findById(dto.id_requester())
-                .orElseThrow(() -> new EntityNotFoundException("Requester not found: " + dto.id_requester()));
+        Requester requester = requesterService.searchReturningRequester(id);
 
         sample.setCommodity(dto.commodity());
         sample.setDescription(dto.description());
@@ -70,8 +66,8 @@ public class SampleService {
     }
 
     @Transactional(readOnly = true)
-    public List<ResultSampleSearchDTO> filterByExample
-            (Integer commodity, String description, Status status) {
+    public Page<ResultSampleSearchDTO> filterByExample
+            (Integer commodity, String description, Status status, Integer page, Integer pageSize) {
         var sample = new Sample();
         sample.setCommodity(commodity);
         sample.setDescription(description);
@@ -81,15 +77,16 @@ public class SampleService {
                 .matching()
                 .withIgnoreCase()
                 .withIgnoreNullValues()
-                .withIgnorePaths("id, price, requester")
+                .withIgnorePaths("id", "price", "requester")
                 .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
 
         Example<Sample> sampleExample = Example.of(sample, matcher);
 
-        return sampleRepository.findAll(sampleExample)
-                .stream()
-                .map(sampleMapper::toDTO)
-                .toList();
+        Pageable pageRequest = PageRequest.of(page, pageSize);
+
+        return sampleRepository
+                .findAll(sampleExample, pageRequest)
+                .map(sampleMapper::toDTO);
     }
 
     private boolean sampleProcessed(Sample sample) {

@@ -43,12 +43,8 @@ public class RequesterService {
     }
 
     public Requester searchReturningRequester(UUID id) {
-        Optional<Requester> optionalRequester =  requesterRepository.findById(id);
-
-        if (optionalRequester.isEmpty()) {
-            throw new EntityNotFoundException("Requester not found: " + id);
-        }
-        return optionalRequester.get();
+        return requesterRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Requester not found: " + id));
     }
 
     @Transactional
@@ -63,9 +59,6 @@ public class RequesterService {
 
     @Transactional
     public void update(UUID id, RequesterDTO dto) {
-        /*
-         * implement throw of operationNotAllowed after, one requester cannot be deleted when he has samples linked to him
-         */
         Requester requester = requesterRepository.findById(id)
                 .orElseThrow(EntityNotFoundException::new);
 

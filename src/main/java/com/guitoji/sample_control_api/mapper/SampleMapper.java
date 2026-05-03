@@ -5,7 +5,6 @@ import com.guitoji.sample_control_api.controller.dto.ResultSampleSearchDTO;
 import com.guitoji.sample_control_api.controller.dto.SampleDTO;
 import com.guitoji.sample_control_api.model.Requester;
 import com.guitoji.sample_control_api.model.Sample;
-import com.guitoji.sample_control_api.repository.RequesterRepository;
 import com.guitoji.sample_control_api.service.RequesterService;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

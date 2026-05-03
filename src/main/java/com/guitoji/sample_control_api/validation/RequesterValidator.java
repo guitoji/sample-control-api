@@ -18,8 +18,6 @@ public class RequesterValidator {
         if (requesterAlreadyRegistered(requester)) {
             throw new DuplicatedRegisterException("Requester is already registered.");
         }
-
-
     }
 
     private boolean requesterAlreadyRegistered(Requester requester) {
