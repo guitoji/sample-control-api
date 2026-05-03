@@ -4,7 +4,11 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -13,6 +17,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @ToString
+@EntityListeners(AuditingEntityListener.class)
 public class Requester {
 
     @Id
@@ -35,4 +40,12 @@ public class Requester {
 
     @OneToMany(mappedBy = "requester", fetch = FetchType.LAZY)
     private List<Sample> samples;
+
+    @CreatedDate
+    @Column(name = "register_date")
+    private LocalDateTime registerDate;
+
+    @LastModifiedDate
+    @Column(name = "update_date")
+    private LocalDateTime updateDate;
 }

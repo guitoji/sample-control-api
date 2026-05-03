@@ -4,6 +4,8 @@ create table requester(
 	email varchar(40) not null,
 	department varchar(40) not null,
 	build numeric(3) not null,
+	register_date timestamp,
+	update_date timestamp,
 	constraint chk_department check (department in ('QUALITY_CENTER', 'AUTOMOTIVE', 'MARKETING', 'HEALTH', 'ENGINEERING', 'ABRASIVES'))
 );
 
@@ -12,7 +14,10 @@ create table sample(
 	commodity numeric(15) not null,
 	description varchar(30) not null,
 	price numeric(14,2) not null,
+	quantity numeric(8) not null,
 	status varchar(15) not null,
+    register_date timestamp,
+    update_date timestamp,
 	id_requester uuid not null references requester(id),
 	constraint chk_status check(status in ('PENDING', 'IN_TRANSIT', 'RECEIVED_BY_PLANT_WAREHOUSE', 'DELIVERED', 'RECEIVED_BY_REQUESTER'))
 );

@@ -15,6 +15,8 @@ public record SampleDTO(
         @NotNull(message = "campo obrigatório")
         BigDecimal price,
         @NotNull(message = "campo obrigatório")
+        Integer quantity,
+        @NotNull(message = "campo obrigatório")
         Status status,
         @NotNull(message = "campo obrigatório")
         UUID id_requester

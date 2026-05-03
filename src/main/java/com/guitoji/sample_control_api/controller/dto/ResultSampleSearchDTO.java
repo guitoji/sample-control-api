@@ -10,6 +10,7 @@ public record ResultSampleSearchDTO(
         Integer commodity,
         String description,
         BigDecimal price,
+        Integer quantity,
         Status status,
         ResultRequesterSearchDTO resultRequesterSearchDTO
 ) {

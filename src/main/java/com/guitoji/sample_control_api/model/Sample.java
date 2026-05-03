@@ -4,8 +4,12 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -13,6 +17,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @ToString
+@EntityListeners(AuditingEntityListener.class)
 public class Sample {
 
     @Id
@@ -29,6 +34,9 @@ public class Sample {
     @Column(name = "price")
     private BigDecimal price;
 
+    @Column(name = "quantity")
+    private Integer quantity;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private Status status;
@@ -36,4 +44,12 @@ public class Sample {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_requester")
     private Requester requester;
+
+    @CreatedDate
+    @Column(name = "register_date")
+    private LocalDateTime registerDate;
+
+    @LastModifiedDate
+    @Column(name = "update_date")
+    private LocalDateTime updateDate;
 }
